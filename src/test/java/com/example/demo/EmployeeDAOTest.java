@@ -1,45 +1,54 @@
 package com.example.demo;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@SpringBootTest
 class EmployeeDAOTest {
 
+    @Autowired
+    private EmployeeDAO dao;
+
     @Test
-    void addEmployee_increasesListSizeAndStoresData() {
-        EmployeeDAO dao = new EmployeeDAO();
-        int originalSize = dao.getAllEmployees().getEmployeeList().size();
+    void addEmployee_increasesRowCountAndStoresData() {
+        List<Employee> before = dao.getAllEmployees();
+        int originalSize = before.size();
 
         Employee newEmployee = new Employee(null, "Charlie", "Manager");
         dao.addEmployee(newEmployee);
 
-        int newSize = dao.getAllEmployees().getEmployeeList().size();
-        assertEquals(originalSize + 1, newSize, "List size should increase by 1 after addEmployee");
+        List<Employee> after = dao.getAllEmployees();
+        int newSize = after.size();
+        assertEquals(originalSize + 1, newSize, "Row count should increase by 1 after addEmployee");
 
         assertTrue(
-                dao.getAllEmployees().getEmployeeList().stream()
+                after.stream()
                         .anyMatch(e -> "Charlie".equals(e.getName()) && "Manager".equals(e.getRole())),
-                "New employee should be present in the list with correct data"
+                "New employee should be present in the table with correct data"
         );
     }
 
     @Test
     void deleteEmployee_removesEmployeeWithGivenId() {
-        EmployeeDAO dao = new EmployeeDAO();
-
-        int originalSize = dao.getAllEmployees().getEmployeeList().size();
+        List<Employee> before = dao.getAllEmployees();
+        int originalSize = before.size();
 
         dao.deleteEmployee(1);
 
-        int newSize = dao.getAllEmployees().getEmployeeList().size();
-        assertEquals(originalSize - 1, newSize, "List size should decrease by 1 after deleteEmployee");
+        List<Employee> after = dao.getAllEmployees();
+        int newSize = after.size();
+        assertEquals(originalSize - 1, newSize, "Row count should decrease by 1 after deleteEmployee");
 
         assertTrue(
-                dao.getAllEmployees().getEmployeeList().stream()
+                after.stream()
                         .noneMatch(e -> Integer.valueOf(1).equals(e.getId())),
-                "Employee with id=1 should no longer be present"
+                "Employee with id=1 should no longer be present in the table"
         );
     }
 }

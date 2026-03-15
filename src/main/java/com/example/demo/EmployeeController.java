@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -18,10 +19,40 @@ public class EmployeeController {
         this.employeeDao = employeeDao;
     }
 
-    // GET endpoint to fetch all employees
+    // GET endpoint to fetch all employees (JSON)
     @GetMapping("/")
     public List<Employee> getEmployees() {
         return employeeDao.getAllEmployees();
+    }
+
+    // Simple HTML page listing all employees
+    @GetMapping("/page")
+    public ResponseEntity<String> getEmployeesPage() {
+        List<Employee> employees = employeeDao.getAllEmployees();
+
+        StringBuilder html = new StringBuilder();
+        html.append("<!DOCTYPE html>")
+                .append("<html><head><title>Employees</title></head><body>")
+                .append("<h1>Employees</h1>")
+                .append("<ul>");
+
+        for (Employee employee : employees) {
+            html.append("<li>")
+                    .append(employee.getId())
+                    .append(" - ")
+                    .append(employee.getName())
+                    .append(" (")
+                    .append(employee.getRole())
+                    .append(")")
+                    .append("</li>");
+        }
+
+        html.append("</ul></body></html>");
+
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.CONTENT_TYPE, "text/html; charset=UTF-8")
+                .body(html.toString());
     }
 
     // POST endpoint to add a new employee
@@ -40,6 +71,7 @@ public class EmployeeController {
 
         return ResponseEntity.created(location).build();
     }
+
     // DELETE endpoint to delete an employee
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteEmployee(@PathVariable Integer id) {

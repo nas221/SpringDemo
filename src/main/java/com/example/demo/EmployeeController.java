@@ -21,22 +21,57 @@ public class EmployeeController {
     }
 
     // GET endpoint to fetch all employees (JSON)
-    @GetMapping(value = "/", produces = "application/json")
+    @GetMapping(value = {"", "/"}, produces = "application/json")
     @ResponseBody
     public List<Employee> getEmployees() {
         return employeeDao.getAllEmployees();
     }
 
-    // Thymeleaf page listing all employees
-    @GetMapping("/page")
+    // Thymeleaf UI page for listing and managing employees
+    @GetMapping({"/page", "/ui"})
     public String getEmployeesPage(Model model) {
-        List<Employee> employees = employeeDao.getAllEmployees();
-        model.addAttribute("employees", employees);
+        model.addAttribute("employees", employeeDao.getAllEmployees());
         return "employees";
     }
 
+    // UI action: add employee via HTML form
+    @PostMapping("/ui/add")
+    public String addEmployeeFromForm(@RequestParam String name, @RequestParam String role) {
+        employeeDao.addEmployee(new Employee(null, name, role));
+        return "redirect:/employees/ui";
+    }
+
+    @GetMapping("/ui/add")
+    public String addEmployeeFromFormGet() {
+        return "redirect:/employees/ui";
+    }
+
+    // UI action: update employee via HTML form
+    @PostMapping("/ui/update")
+    public String updateEmployeeFromForm(@RequestParam Integer id, @RequestParam String name, @RequestParam String role) {
+        employeeDao.updateEmployee(id, new Employee(id, name, role));
+        return "redirect:/employees/ui";
+    }
+
+    @GetMapping("/ui/update")
+    public String updateEmployeeFromFormGet() {
+        return "redirect:/employees/ui";
+    }
+
+    // UI action: delete employee via HTML form
+    @PostMapping("/ui/delete")
+    public String deleteEmployeeFromForm(@RequestParam Integer id) {
+        employeeDao.deleteEmployee(id);
+        return "redirect:/employees/ui";
+    }
+
+    @GetMapping("/ui/delete")
+    public String deleteEmployeeFromFormGet() {
+        return "redirect:/employees/ui";
+    }
+
     // POST endpoint to add a new employee (JSON)
-    @PostMapping(value = "/", consumes = "application/json")
+    @PostMapping(value = {"", "/"}, consumes = "application/json")
     @ResponseBody
     public ResponseEntity<Object> addEmployee(@RequestBody Employee employee) {
 

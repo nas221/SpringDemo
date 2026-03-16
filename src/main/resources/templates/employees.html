@@ -7,6 +7,45 @@
 <body>
 <h1>Employees</h1>
 
+<h2>Add employee</h2>
+<form method="post" action="/employees/ui/add">
+    <label>
+        Name:
+        <input type="text" name="name" required>
+    </label>
+    <label>
+        Role:
+        <input type="text" name="role" required>
+    </label>
+    <button type="submit">Add</button>
+</form>
+
+<h2>Update employee</h2>
+<form method="post" action="/employees/ui/update">
+    <label>
+        ID:
+        <input type="number" name="id" min="1" required>
+    </label>
+    <label>
+        Name:
+        <input type="text" name="name" required>
+    </label>
+    <label>
+        Role:
+        <input type="text" name="role" required>
+    </label>
+    <button type="submit">Update</button>
+</form>
+
+<h2>Delete employee</h2>
+<form method="post" action="/employees/ui/delete">
+    <label>
+        ID:
+        <input type="number" name="id" min="1" required>
+    </label>
+    <button type="submit">Delete</button>
+</form>
+
 <table border="1">
     <thead>
     <tr>

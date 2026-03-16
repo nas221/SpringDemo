@@ -1,15 +1,15 @@
 package com.example.demo;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
-
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.util.List;
-
 @Component
 public class EmployeeDAO {
 
@@ -25,6 +25,7 @@ public class EmployeeDAO {
     public EmployeeDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
 
     public List<Employee> getAllEmployees() {
         String sql = "SELECT id, name, role FROM employee ORDER BY id";
@@ -52,5 +53,16 @@ public class EmployeeDAO {
     public void deleteEmployee(Integer id) {
         String sql = "DELETE FROM employee WHERE id = ?";
         jdbcTemplate.update(sql, id);
+    }
+
+    public Optional<Employee> findByID(Integer id) {
+        String sql = "SELECT id, name, role FROM employee WHERE id = ?";
+        List<Employee> results = jdbcTemplate.query(sql, rowMapper, id);
+        return results.stream().findFirst();
+    }
+
+    public int updateEmployee(Integer id, Employee employee) {
+        String sql = "UPDATE employee SET name = ?, role = ? WHERE id = ?";
+        return jdbcTemplate.update(sql, employee.getName(), employee.getRole(), id);
     }
 }

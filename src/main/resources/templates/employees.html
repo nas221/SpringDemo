@@ -17,6 +17,18 @@
         Role:
         <input type="text" name="role" required>
     </label>
+    <label>
+        Date of birth:
+        <input type="date" name="dob">
+    </label>
+    <label>
+        Email:
+        <input type="email" name="email">
+    </label>
+    <label>
+        Department:
+        <input type="text" name="department">
+    </label>
     <button type="submit">Add</button>
 </form>
 
@@ -33,6 +45,18 @@
     <label>
         Role:
         <input type="text" name="role" required>
+    </label>
+    <label>
+        Date of birth:
+        <input type="date" name="dob">
+    </label>
+    <label>
+        Email:
+        <input type="email" name="email">
+    </label>
+    <label>
+        Department:
+        <input type="text" name="department">
     </label>
     <button type="submit">Update</button>
 </form>
@@ -52,6 +76,9 @@
         <th>ID</th>
         <th>Name</th>
         <th>Role</th>
+        <th>DOB</th>
+        <th>Email</th>
+        <th>Department</th>
     </tr>
     </thead>
     <tbody>
@@ -59,6 +86,9 @@
         <td th:text="${employee.id}"></td>
         <td th:text="${employee.name}"></td>
         <td th:text="${employee.role}"></td>
+        <td th:text="${employee.dob}"></td>
+        <td th:text="${employee.email}"></td>
+        <td th:text="${employee.department}"></td>
     </tr>
     </tbody>
 </table>

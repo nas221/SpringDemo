@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 // Controller for managing employees
@@ -36,8 +37,15 @@ public class EmployeeController {
 
     // UI action: add employee via HTML form
     @PostMapping("/ui/add")
-    public String addEmployeeFromForm(@RequestParam String name, @RequestParam String role) {
-        employeeDao.addEmployee(new Employee(null, name, role));
+    public String addEmployeeFromForm(
+            @RequestParam String name,
+            @RequestParam String role,
+            @RequestParam(required = false) String dob,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String department
+    ) {
+        LocalDate parsedDob = (dob == null || dob.isBlank()) ? null : LocalDate.parse(dob);
+        employeeDao.addEmployee(new Employee(null, name, role, parsedDob, blankToNull(email), blankToNull(department)));
         return "redirect:/employees/ui";
     }
 
@@ -48,8 +56,16 @@ public class EmployeeController {
 
     // UI action: update employee via HTML form
     @PostMapping("/ui/update")
-    public String updateEmployeeFromForm(@RequestParam Integer id, @RequestParam String name, @RequestParam String role) {
-        employeeDao.updateEmployee(id, new Employee(id, name, role));
+    public String updateEmployeeFromForm(
+            @RequestParam Integer id,
+            @RequestParam String name,
+            @RequestParam String role,
+            @RequestParam(required = false) String dob,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String department
+    ) {
+        LocalDate parsedDob = (dob == null || dob.isBlank()) ? null : LocalDate.parse(dob);
+        employeeDao.updateEmployee(id, new Employee(id, name, role, parsedDob, blankToNull(email), blankToNull(department)));
         return "redirect:/employees/ui";
     }
 
@@ -105,5 +121,9 @@ public class EmployeeController {
     public ResponseEntity<Object> deleteEmployee(@PathVariable Integer id) {
         employeeDao.deleteEmployee(id);
         return ResponseEntity.noContent().build();
+    }
+
+    private static String blankToNull(String value) {
+        return (value == null || value.isBlank()) ? null : value.trim();
     }
 }

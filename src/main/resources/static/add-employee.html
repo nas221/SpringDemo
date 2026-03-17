@@ -100,7 +100,7 @@
 <body>
   <div class="card">
     <h1>Add Employee</h1>
-    <p class="subtitle">Enter a name and role, then submit.</p>
+    <p class="subtitle">Enter details, then submit.</p>
 
     <div class="field">
       <label for="name">Name</label>
@@ -110,6 +110,21 @@
     <div class="field">
       <label for="role">Role</label>
       <input id="role" type="text" placeholder="e.g. Developer" />
+    </div>
+
+    <div class="field">
+      <label for="dob">Date of birth</label>
+      <input id="dob" type="date" />
+    </div>
+
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" type="email" placeholder="e.g. alice@company.com" />
+    </div>
+
+    <div class="field">
+      <label for="department">Department</label>
+      <input id="department" type="text" placeholder="e.g. Engineering" />
     </div>
 
     <button id="submitBtn">Add employee</button>
@@ -123,6 +138,9 @@
     btn.addEventListener("click", async () => {
       const name = document.getElementById("name").value.trim();
       const role = document.getElementById("role").value.trim();
+      const dob = document.getElementById("dob").value;
+      const email = document.getElementById("email").value.trim();
+      const department = document.getElementById("department").value.trim();
 
       statusEl.textContent = "";
       statusEl.className = "status";
@@ -139,7 +157,13 @@
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ name, role }),
+          body: JSON.stringify({
+            name,
+            role,
+            dob: dob || null,
+            email: email || null,
+            department: department || null,
+          }),
         });
 
         if (response.ok) {
@@ -147,6 +171,9 @@
           statusEl.classList.add("success");
           document.getElementById("name").value = "";
           document.getElementById("role").value = "";
+          document.getElementById("dob").value = "";
+          document.getElementById("email").value = "";
+          document.getElementById("department").value = "";
         } else {
           statusEl.textContent = "Failed to add employee (" + response.status + ").";
           statusEl.classList.add("error");

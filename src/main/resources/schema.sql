@@ -1,6 +1,9 @@
 CREATE TABLE employee (
     id   BIGINT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
-    role VARCHAR(255) NOT NULL
+    role VARCHAR(255) NOT NULL,
+    dob DATE,
+    email VARCHAR(320),
+    department VARCHAR(255)
 );
 

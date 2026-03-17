@@ -4,19 +4,105 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Employee Management API</title>
+    <style>
+      :root {
+        --bg: #f5f5f7;
+        --card: #ffffff;
+        --text: #111827;
+        --muted: #6b7280;
+        --border: #e5e7eb;
+        --primary: #2563eb;
+        --primary2: #4f46e5;
+      }
+
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: var(--bg);
+        margin: 0;
+        padding: 24px;
+        color: var(--text);
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 18px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      }
+
+      h1 {
+        margin: 0 0 6px;
+        font-size: 26px;
+        font-weight: 650;
+        letter-spacing: -0.02em;
+      }
+
+      p {
+        margin: 8px 0;
+        color: var(--muted);
+      }
+
+      .links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 14px 0 6px;
+      }
+
+      a.btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 14px;
+        border-radius: 999px;
+        text-decoration: none;
+        color: #fff;
+        font-weight: 650;
+        background: linear-gradient(135deg, var(--primary), var(--primary2));
+        box-shadow: 0 8px 18px rgba(37, 99, 235, 0.28);
+      }
+
+      a.btn.secondary {
+        background: #111827;
+        box-shadow: 0 8px 18px rgba(17, 24, 39, 0.18);
+      }
+
+      code {
+        background: #111827;
+        color: #fff;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+      }
+    </style>
   </head>
   <body>
-    <h1>Employee Management API</h1>
-    <p><a href="/add-employee.html">Add an employee</a></p>
-    <p><a href="/employees/ui">Manage employees (UI)</a></p>
-    <p><a href="/employees">List employees (JSON)</a></p>
+    <div class="container">
+      <div class="card">
+        <h1>Employee Management API</h1>
+        <p>Use the UI for quick testing, or call the JSON endpoints with Postman/curl.</p>
 
-    <h2>API endpoints (use Postman/curl)</h2>
-    <ul>
-      <li><code>POST /employees</code> (JSON) - create</li>
-      <li><code>PUT /employees/{id}</code> (JSON) - update</li>
-      <li><code>DELETE /employees/{id}</code> - delete</li>
-    </ul>
+        <div class="links">
+          <a class="btn" href="/employees/ui">Manage employees (UI)</a>
+          <a class="btn secondary" href="/add-employee.html">Add employee (JSON)</a>
+          <a class="btn secondary" href="/employees">List employees (JSON)</a>
+        </div>
+
+        <h2>API endpoints</h2>
+        <ul>
+          <li><code>GET /employees</code> - list employees (JSON)</li>
+          <li><code>POST /employees</code> - create employee (JSON)</li>
+          <li><code>PUT /employees/{id}</code> - update employee (JSON)</li>
+          <li><code>DELETE /employees/{id}</code> - delete employee</li>
+        </ul>
+      </div>
+    </div>
   </body>
 </html>
 
